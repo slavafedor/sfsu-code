@@ -5,10 +5,12 @@ name = "pypi"
 
 [packages]
 pandas = "*"
-docx = "*"
+python-docx = "*"
 openpyxl = "*"
 
 [dev-packages]
+black = "*"
+isort = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"
