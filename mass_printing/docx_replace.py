@@ -8,7 +8,7 @@ from docx import Document
 import pandas as pd
 
 def get_options(argv: List[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(usage="Use: docx_replace.py -d <data.xlsx> -t <template.docx> -o ./output")
+    parser = argparse.ArgumentParser()
 
     parser.add_argument(
         "-t", "--template-file",
@@ -96,8 +96,8 @@ def main(argv: List[str] = sys.argv[1:]) -> None:
     beginIndex = options.beginIndex
     endIndex = options.endIndex
 
-    if not Path.exists(options.outputFolder):
-        Path.mkdir(options.outputFolder)
+    if not os.path.exists(options.outputFolder):
+        os.path.mkdir(options.outputFolder)
 
     print(f"spreadsheet = {spreadsheet}, template_name = {template_name}")
 
@@ -118,9 +118,9 @@ def main(argv: List[str] = sys.argv[1:]) -> None:
                 docx_replace_regex(file_obj, regex1, val, firstOnly)
 
         if not firstOnly:
-            file_name = Path.joinpath(options.outputFolder, f"{index}_{row[cols[0]]}_{row[cols[1]]}_{suffix}.docx")
+            file_name = os.path.join(options.outputFolder, f"{index}_{row[cols[0]]}_{row[cols[1]]}_{suffix}.docx")
         else: 
-            file_name = Path.joinpath(options.outputFolder, f"out_{suffix}.docx")
+            file_name = os.path.join(options.outputFolder, f"out_{suffix}.docx")
             template_name = file_name
 
         print(file_name)

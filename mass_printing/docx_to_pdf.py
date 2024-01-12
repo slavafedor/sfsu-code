@@ -1,49 +1,69 @@
-import re
+import argparse
+import os
 import sys
-from docx import Document
-import pandas as pd
+from typing import List
+import comtypes.client
+import docx
 
-from subprocess import  Popen
-LIBRE_OFFICE = r"soffice"
+def get_options(argv: List[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(usage="Use: docx_replace.py -d <data.xlsx> -t <template.docx> -o ./output")
 
-def convert_to_pdf(input_docx, out_folder):
-    p = Popen([LIBRE_OFFICE, '--headless', '--convert-to', 'pdf', '--outdir',
-               out_folder, input_docx])
-    print([LIBRE_OFFICE, '--convert-to', 'pdf', input_docx])
-    p.communicate()
+    parser.add_argument(
+        "-i", "--input-folder",
+        dest="inputFolder",
+        action="store",
+        required=False, 
+        default=os.path.join(os.getcwd(), "."),
+        help="Set the input folder. If not supplied, the <current folder> will be used as an input folder."
+    )
+
+    parser.add_argument(
+        "-o", "--output-folder",
+        dest="outputFolder",
+        action="store",
+        required=False, 
+        default=os.path.join(os.getcwd(), "out"),
+        help="Set the output folder. If not supplied, the <current folder>/out will be used as an output folder."
+    )
+
+    options = parser.parse_args(argv)
+    return options
+
+def convert_doc_to_pdf( word_COM, word_path, pdf_path):
+    print(f"\nInput file: '{word_path}'")
+    docx_path = os.path.abspath(word_path)
+    pdf_path = os.path.abspath(pdf_path)
+
+    pdf_format = 17  # PDF file format code
+    word_COM.Visible = False
+    in_file = word_COM.Documents.Open(docx_path)
+    in_file.SaveAs(pdf_path, FileFormat=pdf_format)
+    in_file.Close()
+    print(f"Output file: '{pdf_path}'\n")
 
 
+def main(argv: List[str] = sys.argv[1:]) -> None:
+    options = get_options(argv)
 
-# Check if Command Line Arguments are passed.
-if len(sys.argv) < 3:
-    print('Not Enough arguments where supplied')
-    print(f'Use: {sys.argv[0]} <file_name.docx> <output_dir>')
-
-    sys.exit()
-
-
-sample_doc = sys.argv[1]
-out_folder = sys.argv[2]
+    outputFolder = os.path.abspath(options.outputFolder) 
+    inputFolder =  os.path.abspath(options.inputFolder) 
+    if not os.path.exists(outputFolder):
+        os.mkdir(outputFolder)
 
 
-convert_to_pdf(sample_doc, out_folder)
+    # List all files in the folder
+    files = os.listdir(options.inputFolder)
+    # Filter out only the .docx files
+    docx_files = [file for file in files if file.endswith(".docx")]
+    if docx_files:
+        # Save the Word document as a PDF using Microsoft Word
+        word = comtypes.client.CreateObject("Word.Application")
+        for f in docx_files:
+            file_in = os.path.join(inputFolder, f)
+            file_out= os.path.join(outputFolder, f + ".pdf")
+            convert_doc_to_pdf(word, file_in, file_out) 
+        # Quit Microsoft Word
+        word.Quit()
 
-
-print(f"spreadsheet = {spreadsheet}, template_name = {template_name}")
-
-excel_data = pd.read_excel(spreadsheet)
-cols = excel_data.columns
-print(cols)
-for index, row in excel_data.iterrows():
-    file_obj = Document(template_name)
-    #if index != 29: continue
-    for c in cols:
-        if c is not None:
-            print(f"c='{c}' : {row[c]}")
-            regex1 = re.compile(f"{c}")
-            docx_replace_regex(file_obj, regex1, row[c])
-
-    file_name= f"{index}_{row[cols[0]]}_{row[cols[1]]}.docx"
-    print(file_name)
-    file_obj.save(file_name)
-    #exit()
+if __name__ == "__main__":
+    main()
