@@ -9,19 +9,19 @@ Used for replacing {TAGS} in Template (.docx) files and creating resulting file(
 ### usage: 
 	docx_replace.py [-h] -t TEMPLATEFILE -d DATAFILE [-b BEGININDEX] [-e ENDINDEX] [-o OUTPUTFOLDER] [-f]
 
-options:
-  -h, --help            show this help message and exit
-  -t TEMPLATEFILE, --template-file TEMPLATEFILE
-                        Set the input data file. This is a required argument.
-  -d DATAFILE, --data-file DATAFILE
-                        Set the input data file. This is a required argument.
-  -b BEGININDEX, --begin-index BEGININDEX
-                        Set the input data file starting data row index (starts with 0).
-  -e ENDINDEX, --end-index ENDINDEX
-                        Set the input data file ending data row index (starts with 0).
-  -o OUTPUTFOLDER, --output-folder OUTPUTFOLDER
-                        Set the output folder. If not supplied, the <current folder>/out will be used as an output folder.
-  -f, --first-only      If set - the only first match will be replaced with value, and only one file will be created.
+	options:
+	-h, --help            show this help message and exit
+	-t TEMPLATEFILE, --template-file TEMPLATEFILE
+							Set the input data file. This is a required argument.
+	-d DATAFILE, --data-file DATAFILE
+							Set the input data file. This is a required argument.
+	-b BEGININDEX, --begin-index BEGININDEX
+							Set the input data file starting data row index (starts with 0).
+	-e ENDINDEX, --end-index ENDINDEX
+							Set the input data file ending data row index (starts with 0).
+	-o OUTPUTFOLDER, --output-folder OUTPUTFOLDER
+							Set the output folder. If not supplied, the <current folder>/out will be used as an output folder.
+	-f, --first-only      If set - the only first match will be replaced with value, and only one file will be created.
 
 ### Examples:
 
