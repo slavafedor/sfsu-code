@@ -6,7 +6,7 @@ import comtypes.client
 import docx
 
 def get_options(argv: List[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(usage="Use: docx_replace.py -d <data.xlsx> -t <template.docx> -o ./output")
+    parser = argparse.ArgumentParser(usage="docx_to_pdf.py [-h] [-i <INPUT_FOLDER>] [-o <OUTPUT_FOLDER>]")
 
     parser.add_argument(
         "-i", "--input-folder",

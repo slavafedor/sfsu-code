@@ -62,6 +62,15 @@ def get_options(argv: List[str]) -> argparse.Namespace:
         help="If set - the only first match will be replaced with value, and only one file will be created."
     )
 
+    parser.add_argument(
+        "-n", "--file-name-template",
+        dest="fileNameTemplate",
+        action="store",
+        required=False, 
+        default="{index}_{row[0]}_{row[1]}_{suffix}.docx",
+        help="Set the output filename template. If not supplied, the default '{index}_{row[0]}_{row[1]}_{suffix}.docx' will be used."
+    )
+
     options = parser.parse_args(argv)
     return options
 
@@ -95,9 +104,10 @@ def main(argv: List[str] = sys.argv[1:]) -> None:
     firstOnly = options.firstOnly
     beginIndex = options.beginIndex
     endIndex = options.endIndex
+    fileNameTemplate = options.fileNameTemplate
 
     if not os.path.exists(options.outputFolder):
-        os.path.mkdir(options.outputFolder)
+        os.mkdir(options.outputFolder)
 
     print(f"spreadsheet = {spreadsheet}, template_name = {template_name}")
 
@@ -118,7 +128,8 @@ def main(argv: List[str] = sys.argv[1:]) -> None:
                 docx_replace_regex(file_obj, regex1, val, firstOnly)
 
         if not firstOnly:
-            file_name = os.path.join(options.outputFolder, f"{index}_{row[cols[0]]}_{row[cols[1]]}_{suffix}.docx")
+            #file_name = os.path.join(options.outputFolder, f"{index}_{row[cols[0]]}_{row[cols[1]]}_{suffix}.docx")
+            file_name = os.path.join(options.outputFolder, fileNameTemplate.format(**locals()))
         else: 
             file_name = os.path.join(options.outputFolder, f"out_{suffix}.docx")
             template_name = file_name

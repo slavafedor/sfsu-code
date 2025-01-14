@@ -57,6 +57,27 @@
 				"-b",
 				"49"
 			]
+		},
+		{
+			"name": "Python: Docx(Data) ",
+			"type": "python",
+			"request": "launch",
+			"program": "docx_replace.py",
+			"console": "integratedTerminal",
+			"justMyCode": true,
+			"cwd": "${workspaceFolder}/mass_printing/",
+			"args": [
+				"-t",
+				"./templates/2023_U_of_C_Donation_Receipt.docx",
+				"-d",
+				"./data/250plus-december-transactions-2025-01-12-554766422.xlsx",
+				"-o",
+				"./out/receipts",
+				"-e",
+				"2",
+				"-n",
+				"{row[col[13]]}_{row[col[1]]}_{row[col[2]]}_{suffix}.docx"
+			]
 		}
 	]
 }
