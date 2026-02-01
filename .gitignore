@@ -1,6 +1,6 @@
 #per project
 .~*
-out/
+**/out/
 *_out/
 SFSU/
 *.7z

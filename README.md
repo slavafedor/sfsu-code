@@ -50,11 +50,15 @@ Converts _.docx to _.pdf
 
 ### usage
 
+```bash
 usage: docx_to_pdf.py [-h] [-i <INPUT_FOLDER>] [-o <OUTPUT_FOLDER>]
 
 options:
--h, --help show this help message and exit
--i INPUTFOLDER, --input-folder INPUTFOLDER
-Set the input folder. If not supplied, the <current folder> will be used as an input folder.
--o OUTPUTFOLDER, --output-folder OUTPUTFOLDER
-Set the output folder. If not supplied, the <current folder>/out will be used as an output folder.
+  -h, --help        show this help message and exit
+  -i INPUTFOLDER, --input-folder INPUTFOLDER 
+                    Set the input folder. If not supplied, the <current folder> will be used as an input folder.
+  -o OUTPUTFOLDER, --output-folder OUTPUTFOLDER
+                    Set the output folder. If not supplied, the <current folder>/out will be used as an output folder.
+  -c COMBINEOUTPUTFILE, --combine-output-file COMBINEOUTPUTFILE
+                    Set the output combined PDF file. If not supplied, the <current folder>/out.pdf will be used as an output file.
+```
